@@ -1,0 +1,13 @@
+{
+    "token": "",
+    "prefix": "~",
+    "loginCall": "",
+    "channelToMessage": "",
+    "clientId": "",
+    "guildId": "",
+    "clusterIP": "w0mu.net",
+    "clusterPort": 7373,
+    "callsToWatch": [
+        "WW0CJ"
+    ]
+}
