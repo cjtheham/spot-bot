@@ -1,0 +1,6 @@
+- [ ] limit to HF bands (160-6)
+- [ ] bring back fancy embed
+- [ ] hamcall lookup
+- [ ] rare area pings
+- [ ] dont do dupe pings
+- [ ] move clusters to config.json
