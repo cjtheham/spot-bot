@@ -39,28 +39,36 @@ fs.readdir('./commands/', (err, files) => {
 
 // Spot Watcher
 
+const regex = new RegExp(/^[AaWaKkNn][a-zA-Z]?[0-9][a-zA-Z]{1,3}$/);
+
 const ssbSpots = new HamCluster(config.loginCall, {
     hostname: config.clusterIP,
     port: config.clusterPort
 })
 
 ssbSpots.on('connected', () => {
-    console.log('connected!')
+    console.log(`Connected to ${config.clusterIP}`)
 })
 
-let message;
+let message, comments;
 
 ssbSpots.on('spot', spot => {
     if (client.channels.cache.get(config.channelToMessage) === undefined) {
         return console.log('Error! Channel ID in Config in likely invalid. Please verify!');
     }
-    console.log(spot)
-    if (config.callsToWatch.includes(spot.dxCall)) {
-        message = `***!!! SPECIAL SPOT !!!*** \n ${spot.dxCall} spotted by ${spot.deCall} on ${spot.freq} kHz at ${spot.time} \n \`${spot.comments}\``
-        client.channels.cache.get(config.channelToMessage).send(message)
-    } else { 
-        message = `${spot.dxCall} spotted by ${spot.deCall} on ${spot.freq} kHz at ${spot.time} \n \`${spot.comments}\``
-        client.channels.cache.get(config.channelToMessage).send(message)
+    // only show spots from US to not US
+    if (regex.test(spot.deCall) && regex.test(spot.dxCall) != true) {
+        if (spot.comments != '') {
+            comments = '`' + spot.comments + '`';
+        } else { comments = '' }
+        console.log(spot)
+        if (config.callsToWatch.includes(spot.dxCall)) {
+            message = `***!!! SPECIAL SPOT !!!*** \n ${spot.dxCall} spotted by ${spot.deCall} on ${spot.freq} kHz at ${spot.time} \n \`${spot.comments}\``
+            client.channels.cache.get(config.channelToMessage).send(message)
+        } if (true) { 
+            message = `${spot.dxCall} spotted by ${spot.deCall} on ${spot.freq} kHz at ${spot.time} \n \`${spot.comments}\``
+            client.channels.cache.get(config.channelToMessage).send(message)
+        }
     }
 })
 
