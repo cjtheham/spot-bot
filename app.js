@@ -66,7 +66,7 @@ ssbSpots.on('spot', spot => {
             message = `***!!! SPECIAL SPOT !!!*** \n ${spot.dxCall} spotted by ${spot.deCall} on ${spot.freq} kHz at ${spot.time} \n \`${spot.comments}\``
             client.channels.cache.get(config.channelToMessage).send(message)
         } if (true) { 
-            message = `${spot.dxCall} spotted by ${spot.deCall} on ${spot.freq} kHz at ${spot.time} \n \`${spot.comments}\``
+            message = `${spot.dxCall} spotted by ${spot.deCall} on ${spot.freq} kHz at ${spot.time} \n${comments}`
             client.channels.cache.get(config.channelToMessage).send(message)
         }
     }
