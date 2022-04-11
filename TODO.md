@@ -2,5 +2,3 @@
 - [ ] bring back fancy embed
 - [ ] hamcall lookup
 - [ ] rare area pings
-- [ ] dont do dupe pings
-- [ ] move clusters to config.json

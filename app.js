@@ -39,45 +39,27 @@ fs.readdir('./commands/', (err, files) => {
 
 // Spot Watcher
 
-const rbnSpots = new HamCluster(config.loginCall, {
-    hostname: "telnet.reversebeacon.net",
-    port: 7000,
-    type: "rbn"
-})
-
 const ssbSpots = new HamCluster(config.loginCall, {
-    hostname: "w0mu.net",
-    port: 7373
+    hostname: config.clusterIP,
+    port: config.clusterPort
 })
-
-rbnSpots.on('connected', ()=> {
-    console.log("Connected!");
-});
-
-// rbnSpots.on('spot', spot => {
-//     if (client.channels.cache.get(config.channelToMessage) === undefined) {
-//         return console.log('Error! Channel ID in Config in likely invalid. Please verify!');
-//     }
-//     if (true) {
-//         const embed = new MessageEmbed()
-//             .setTitle(spot.dxCall + " spotted")
-//             .setDescription(spot.dxCall + " spotted by " + spot.deCall + " on " + spot.freq + "kHz at " + spot.time)
-//         client.channels.cache.get(config.channelToMessage).send({ embeds: [embed] })
-//         console.log(embed)
-//     }
-// });
 
 ssbSpots.on('connected', () => {
     console.log('connected!')
 })
 
+let message;
+
 ssbSpots.on('spot', spot => {
     if (client.channels.cache.get(config.channelToMessage) === undefined) {
         return console.log('Error! Channel ID in Config in likely invalid. Please verify!');
     }
-    if (true) {
-        console.log(spot)
-        const message = `${spot.dxCall} spotted by ${spot.deCall} on ${spot.freq} kHz at ${spot.time}`
+    console.log(spot)
+    if (config.callsToWatch.includes(spot.dxCall)) {
+        message = `***!!! SPECIAL SPOT !!!*** \n ${spot.dxCall} spotted by ${spot.deCall} on ${spot.freq} kHz at ${spot.time} \n \`${spot.comments}\``
+        client.channels.cache.get(config.channelToMessage).send(message)
+    } else { 
+        message = `${spot.dxCall} spotted by ${spot.deCall} on ${spot.freq} kHz at ${spot.time} \n \`${spot.comments}\``
         client.channels.cache.get(config.channelToMessage).send(message)
     }
 })
