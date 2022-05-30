@@ -1,3 +1,0 @@
-- [ ] bring back fancy embed
-- [ ] rare area pings
-- [ ] I think the best thing would be regular DX cluster spots from North America and then RBN of just our calls but without dupes
